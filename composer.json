@@ -1,0 +1,39 @@
+{
+    "name": "flinks/flinks-php",
+    "description": "Flinks PHP SDK",
+    "homepage": "https://flinks.io",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Flinks",
+            "homepage": "https://flinks.io"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "jane/openapi-runtime": "*",
+        "php-http/guzzle6-adapter": "^1.1",
+        "php-http/httplug": "^1.0",
+        "guzzlehttp/guzzle": "^6.0",
+        "monolog/monolog": "^1.22"
+    },
+    "require-dev": {
+        "ext-intl": "*",
+        "ext-fileinfo": "*",
+        "jane/open-api": "^1.3",
+        "phpunit/phpunit": "^4.7"
+    },
+    "autoload": {
+        "psr-4": { "Flinks\\" : "src/Flinks/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Flinks\\" : "tests/Flinks/" }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "prefer-lowest": true,
+    "prefer-source": true
+}

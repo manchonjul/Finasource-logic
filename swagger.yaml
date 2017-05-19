@@ -1,0 +1,877 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Flinks API",
+    "version": "3.1.0-alpha"
+  },
+  "host": "localhost:54777",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v3/{customerId}/BankingServices/Authorize": {
+      "post": {
+        "tags": [
+          "BankingServicesV3"
+        ],
+        "operationId": "Authorize",
+        "parameters": [
+          {
+            "name": "authorizeRequest",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/AuthorizeRequest"
+            },
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/LoggedInResponse"
+            },
+            "x-nullable": true
+          },
+          "203": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ChallengeResponse"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ReauthorizeResponse"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/v3/{customerId}/BankingServices/GetAccountsSummary": {
+      "post": {
+        "tags": [
+          "BankingServicesV3"
+        ],
+        "operationId": "GetAccountsSummary",
+        "parameters": [
+          {
+            "name": "getAccountsSummaryRequest",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/GetAccountsSummaryRequest"
+            },
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AccountsSummaryResponse"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ReauthorizeResponse"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/v3/{customerId}/BankingServices/GetAccountsDetail": {
+      "post": {
+        "tags": [
+          "BankingServicesV3"
+        ],
+        "operationId": "GetAccountsDetail",
+        "parameters": [
+          {
+            "name": "getAccountsDetailRequest",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/GetAccountsDetailRequest"
+            },
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AccountsDetailResponse"
+            },
+            "x-nullable": true
+          },
+          "401": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ReauthorizeResponse"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/v3/{customerId}/BankingServices/ActivateScheduledRefresh": {
+      "get": {
+        "tags": [
+          "BankingServicesV3"
+        ],
+        "operationId": "ActivateScheduledRefresh",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "loginId",
+            "in": "query",
+            "required": true,
+            "x-nullable": false,
+            "format": "guid"
+          },
+          {
+            "type": "string",
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "x-nullable": false,
+            "format": "guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AuthorizeRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Save",
+        "CustomerId",
+        "Provider"
+      ],
+      "properties": {
+        "LoginId": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Username": {
+          "type": "string"
+        },
+        "Password": {
+          "type": "string"
+        },
+        "Institution": {
+          "$ref": "#/definitions/InstitutionEnum"
+        },
+        "RequestId": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Language": {
+          "type": "string",
+          "maxLength": 2,
+          "minLength": 0,
+          "pattern": "en|fr"
+        },
+        "SecurityResponses": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "Save": {
+          "type": "boolean"
+        },
+        "ScheduleRefresh": {
+          "type": "boolean"
+        },
+        "CustomerId": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Provider": {
+          "$ref": "#/definitions/Provider"
+        }
+      }
+    },
+    "InstitutionEnum": {
+      "type": "string",
+      "x-enumNames": [
+        "BMO",
+        "Desjardins",
+        "RBC",
+        "TD",
+        "CIBC",
+        "Scotia",
+        "National",
+        "Tangerine",
+        "ATB",
+        "PC"
+      ],
+      "enum": [
+        "BMO",
+        "Desjardins",
+        "RBC",
+        "TD",
+        "CIBC",
+        "Scotia",
+        "National",
+        "Tangerine",
+        "ATB",
+        "PC"
+      ],
+      "description": ""
+    },
+    "Provider": {
+      "type": "string",
+      "x-enumNames": [
+        "Flinks",
+        "FiniCity"
+      ],
+      "enum": [
+        "Flinks",
+        "FiniCity"
+      ],
+      "description": ""
+    },
+    "LoggedInResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "HttpStatusCode",
+        "Institution"
+      ],
+      "properties": {
+        "HttpStatusCode": {
+          "$ref": "#/definitions/HttpStatusCode"
+        },
+        "Links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Link"
+          }
+        },
+        "Login": {
+          "$ref": "#/definitions/Login"
+        },
+        "Institution": {
+          "$ref": "#/definitions/InstitutionEnum"
+        },
+        "RequestId": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "HttpStatusCode": {
+      "type": "string",
+      "x-enumNames": [
+        "Continue",
+        "SwitchingProtocols",
+        "OK",
+        "Created",
+        "Accepted",
+        "NonAuthoritativeInformation",
+        "NoContent",
+        "ResetContent",
+        "PartialContent",
+        "MultipleChoices",
+        "Ambiguous",
+        "MovedPermanently",
+        "Moved",
+        "Found",
+        "Redirect",
+        "SeeOther",
+        "RedirectMethod",
+        "NotModified",
+        "UseProxy",
+        "Unused",
+        "TemporaryRedirect",
+        "RedirectKeepVerb",
+        "BadRequest",
+        "Unauthorized",
+        "PaymentRequired",
+        "Forbidden",
+        "NotFound",
+        "MethodNotAllowed",
+        "NotAcceptable",
+        "ProxyAuthenticationRequired",
+        "RequestTimeout",
+        "Conflict",
+        "Gone",
+        "LengthRequired",
+        "PreconditionFailed",
+        "RequestEntityTooLarge",
+        "RequestUriTooLong",
+        "UnsupportedMediaType",
+        "RequestedRangeNotSatisfiable",
+        "ExpectationFailed",
+        "UpgradeRequired",
+        "InternalServerError",
+        "NotImplemented",
+        "BadGateway",
+        "ServiceUnavailable",
+        "GatewayTimeout",
+        "HttpVersionNotSupported"
+      ],
+      "enum": [
+        "Continue",
+        "SwitchingProtocols",
+        "OK",
+        "Created",
+        "Accepted",
+        "NonAuthoritativeInformation",
+        "NoContent",
+        "ResetContent",
+        "PartialContent",
+        "MultipleChoices",
+        "Ambiguous",
+        "MovedPermanently",
+        "Moved",
+        "Found",
+        "Redirect",
+        "SeeOther",
+        "RedirectMethod",
+        "NotModified",
+        "UseProxy",
+        "Unused",
+        "TemporaryRedirect",
+        "RedirectKeepVerb",
+        "BadRequest",
+        "Unauthorized",
+        "PaymentRequired",
+        "Forbidden",
+        "NotFound",
+        "MethodNotAllowed",
+        "NotAcceptable",
+        "ProxyAuthenticationRequired",
+        "RequestTimeout",
+        "Conflict",
+        "Gone",
+        "LengthRequired",
+        "PreconditionFailed",
+        "RequestEntityTooLarge",
+        "RequestUriTooLong",
+        "UnsupportedMediaType",
+        "RequestedRangeNotSatisfiable",
+        "ExpectationFailed",
+        "UpgradeRequired",
+        "InternalServerError",
+        "NotImplemented",
+        "BadGateway",
+        "ServiceUnavailable",
+        "GatewayTimeout",
+        "HttpVersionNotSupported"
+      ],
+      "description": ""
+    },
+    "Link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rel",
+        "href"
+      ],
+      "properties": {
+        "rel": {
+          "type": "string"
+        },
+        "href": {
+          "type": "string"
+        },
+        "example": {
+          "$ref": "#/definitions/IBankingResponse"
+        }
+      }
+    },
+    "IBankingResponse": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "Login": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "IsScheduledRefresh",
+        "LastRefresh",
+        "Id"
+      ],
+      "properties": {
+        "Username": {
+          "type": "string"
+        },
+        "IsScheduledRefresh": {
+          "type": "boolean"
+        },
+        "LastRefresh": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Id": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "ChallengeResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "HttpStatusCode",
+        "Institution"
+      ],
+      "properties": {
+        "HttpStatusCode": {
+          "$ref": "#/definitions/HttpStatusCode"
+        },
+        "Links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Link"
+          }
+        },
+        "FlinksCode": {
+          "$ref": "#/definitions/ErrorCode"
+        },
+        "SecurityChallenges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SecurityChallenge"
+          }
+        },
+        "Institution": {
+          "$ref": "#/definitions/InstitutionEnum"
+        },
+        "RequestId": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "ErrorCode": {
+      "type": "string",
+      "x-enumNames": [
+        "INVALID_LOGIN",
+        "INVALID_USERNAME",
+        "INVALID_PASSWORD",
+        "INVALID_SECURITY_RESPONSE",
+        "QUESTION_NOT_FOUND",
+        "AGGREGATION_ERROR",
+        "UNKNOWN_CHALLENGE_KEY",
+        "INVALID_REQUEST"
+      ],
+      "enum": [
+        "INVALID_LOGIN",
+        "INVALID_USERNAME",
+        "INVALID_PASSWORD",
+        "INVALID_SECURITY_RESPONSE",
+        "QUESTION_NOT_FOUND",
+        "AGGREGATION_ERROR",
+        "UNKNOWN_CHALLENGE_KEY",
+        "INVALID_REQUEST"
+      ],
+      "description": ""
+    },
+    "SecurityChallenge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Type",
+        "Prompt"
+      ],
+      "properties": {
+        "Type": {
+          "$ref": "#/definitions/SecurityChallengeType"
+        },
+        "Iterables": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Prompt": {
+          "type": "string"
+        }
+      }
+    },
+    "SecurityChallengeType": {
+      "type": "string",
+      "x-enumNames": [
+        "Unknown",
+        "QuestionAndAnswer",
+        "OneTimeVerification",
+        "MultipleChoice",
+        "Date"
+      ],
+      "enum": [
+        "Unknown",
+        "QuestionAndAnswer",
+        "OneTimeVerification",
+        "MultipleChoice",
+        "Date"
+      ],
+      "description": ""
+    },
+    "ReauthorizeResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "HttpStatusCode",
+        "Institution"
+      ],
+      "properties": {
+        "HttpStatusCode": {
+          "$ref": "#/definitions/HttpStatusCode"
+        },
+        "Links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Link"
+          }
+        },
+        "FlinksCode": {
+          "$ref": "#/definitions/ErrorCode"
+        },
+        "SecurityChallenges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SecurityChallenge"
+          }
+        },
+        "Institution": {
+          "$ref": "#/definitions/InstitutionEnum"
+        },
+        "RequestId": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "GetAccountsSummaryRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "RequestId",
+        "MostRecent",
+        "CustomerId",
+        "Provider"
+      ],
+      "properties": {
+        "RequestId": {
+          "type": "string",
+          "format": "guid"
+        },
+        "MostRecent": {
+          "type": "boolean"
+        },
+        "CustomerId": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Provider": {
+          "$ref": "#/definitions/Provider"
+        }
+      }
+    },
+    "AccountsSummaryResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "HttpStatusCode",
+        "Institution"
+      ],
+      "properties": {
+        "HttpStatusCode": {
+          "$ref": "#/definitions/HttpStatusCode"
+        },
+        "Accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Account"
+          }
+        },
+        "Links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Link"
+          }
+        },
+        "Login": {
+          "$ref": "#/definitions/Login"
+        },
+        "Institution": {
+          "$ref": "#/definitions/InstitutionEnum"
+        },
+        "RequestId": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "Account": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Id"
+      ],
+      "properties": {
+        "Title": {
+          "type": "string"
+        },
+        "AccountNumber": {
+          "type": "string"
+        },
+        "Balance": {
+          "$ref": "#/definitions/Balance"
+        },
+        "Category": {
+          "type": "string"
+        },
+        "Id": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "Balance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Current"
+      ],
+      "properties": {
+        "Available": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "Current": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "Limit": {
+          "type": "number",
+          "format": "decimal"
+        }
+      }
+    },
+    "GetAccountsDetailRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "WithAccountIdentity",
+        "WithTransactions",
+        "DaysOfTransactions",
+        "RequestId",
+        "MostRecent",
+        "CustomerId",
+        "Provider"
+      ],
+      "properties": {
+        "WithAccountIdentity": {
+          "type": "boolean"
+        },
+        "WithTransactions": {
+          "type": "boolean"
+        },
+        "AccountsFilter": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "guid"
+          }
+        },
+        "DaysOfTransactions": {
+          "$ref": "#/definitions/DaysOfTransactionsEnum"
+        },
+        "RequestId": {
+          "type": "string",
+          "format": "guid"
+        },
+        "MostRecent": {
+          "type": "boolean"
+        },
+        "CustomerId": {
+          "type": "string",
+          "format": "guid"
+        },
+        "Provider": {
+          "$ref": "#/definitions/Provider"
+        }
+      }
+    },
+    "DaysOfTransactionsEnum": {
+      "type": "string",
+      "x-enumNames": [
+        "Days90",
+        "Days360"
+      ],
+      "enum": [
+        "Days90",
+        "Days360"
+      ],
+      "description": ""
+    },
+    "AccountsDetailResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "HttpStatusCode",
+        "Institution"
+      ],
+      "properties": {
+        "HttpStatusCode": {
+          "$ref": "#/definitions/HttpStatusCode"
+        },
+        "Accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AccountWithDetails"
+          }
+        },
+        "Login": {
+          "$ref": "#/definitions/Login"
+        },
+        "Institution": {
+          "$ref": "#/definitions/InstitutionEnum"
+        },
+        "RequestId": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "AccountWithDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Id"
+      ],
+      "properties": {
+        "Holder": {
+          "$ref": "#/definitions/Holder"
+        },
+        "Transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AccountTransaction"
+          }
+        },
+        "TransitNumber": {
+          "type": "string"
+        },
+        "InstitutionNumber": {
+          "type": "string"
+        },
+        "Title": {
+          "type": "string"
+        },
+        "AccountNumber": {
+          "type": "string"
+        },
+        "Balance": {
+          "$ref": "#/definitions/Balance"
+        },
+        "Category": {
+          "type": "string"
+        },
+        "Id": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "Holder": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Name": {
+          "type": "string"
+        }
+      }
+    },
+    "AccountTransaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Id"
+      ],
+      "properties": {
+        "Date": {
+          "type": "string"
+        },
+        "Code": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Debit": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "Credit": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "Balance": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "Id": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    }
+  },
+  "parameters": {},
+  "responses": {},
+  "securityDefinitions": {}
+}
