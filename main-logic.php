@@ -2,6 +2,8 @@
 
 // Get the Flinks autoloader
 require_once '/path/to/Flinks/vendor/autoload.php';
+//include some of the business logic for the script
+require_once '/Finasource-logic/top5.php'
 
 // Set up some aliases to make code more readable
 use Flinks\BankingServices\Model\ClientErrorResponse;
@@ -76,6 +78,13 @@ else
 	}
 	else
 	{
-		// do something with our data
+		//This allows for us to detect whether the customer banks with a top5 instittion in Canada. If they do, we redirect
+		//the flow to top5.html which is a page that briefly advertises the benefits of the smaller Canadian banks.
+	 if $institution = top5(true){
+        		header('Location: top5.html');
+        	}
+         else
+         {
+		 //Later, this is where the pfm function/redirect will go, when coded
 	}
 }
