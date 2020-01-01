@@ -1,3 +1,9 @@
+This is a work in progress of a pre-monetised setup of a pfm sort of app that Canadian Bank users will use and those running the code will make money off of various affiliate marketing techniques and advanced automated advertiseing techniues built into the code.
+Thanks to the wonderful people at flinks, I have been able to code this from their solid api.
+It is not complete yet, but when it is you can simply install by following the offial flinks api installion directions corresponding with this project by reading below.
+I have isntalled all necessary integrations so you just have to use git to clone this repo or download the ZIP and cd into 'Finasource-logic' then follow the directions below:
+
+
 # Using the Flinks PHP SDK
 ## Installation
 ### 1. Add files to your project
